@@ -3,6 +3,7 @@
 </script>
 
 <div class="showroom-container">
+  <span>FA O VIZITA</span>
   <h2 class="title">SHOWROOM</h2>
   <div class="image-container">
     <img src={showroomImage} alt="Showroom Slatina" />
@@ -11,19 +12,27 @@
 </div>
 
 <style>
+
+  span{
+    font-size: 1.2rem;
+    color: brown;
+    font-weight: bold;
+  }
   .title {
     font-size: 3.5rem;
     font-weight: bold;
     color: #333;
-    margin: 0;
+    margin-top: -0.8rem;
   }
 
   .showroom-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 0.5rem;
     padding: 2rem;
+    margin-block: 150px;
+
   }
 
   .image-container {

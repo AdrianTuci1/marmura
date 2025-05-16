@@ -87,7 +87,8 @@
 
 <div class="categories-container">
   <div class="header">
-    <h2>CATEGORII</h2>
+    <span>ALEGE DIN</span>
+    <h2>COLECȚII</h2>
   </div>
   
   <div class="scroll-container">
@@ -135,16 +136,24 @@
 
   .header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     padding: 0px 20px;
     margin-bottom: 20px;
     width: 100%;
   }
 
+  span{
+    padding-left: 20px;
+    font-size: 1.2rem;
+    color: brown;
+    font-weight: bold;
+  }
+
   h2 {
     font-size: 3.5em;
     padding-left: 20px;
+    margin-top: -0.8rem;
   }
 
   .scroll-container {

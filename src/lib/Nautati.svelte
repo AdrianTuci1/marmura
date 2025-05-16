@@ -40,7 +40,7 @@
     <div class="main-image">
       <img src={images[currentIndex].src} alt="Nautati" />
       <div class="overlay">
-        <span class="title">Nautați</span>
+        <span class="title">NOUTATI</span>
         <p class="description">{images[currentIndex].description}</p>
       </div>
     </div>
