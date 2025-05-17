@@ -3,28 +3,35 @@
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   
-  gsap.registerPlugin(ScrollTrigger);
+  const isBrowser = typeof window !== 'undefined';
   
-  let footerColumns;
+  if (isBrowser) {
+    gsap.registerPlugin(ScrollTrigger);
+  }
+  
+  let footerContent;
   let footerBigtext;
 
   onMount(() => {
-    // Animate columns - following scroll
-    gsap.fromTo(footerColumns, 
+    // Refresh ScrollTrigger when the component mounts
+    ScrollTrigger.refresh();
+
+    // Animate content - following scroll
+    gsap.fromTo(footerContent, 
       {
-        y: -500,
+        y: -50,
         opacity: 0
       },
       {
         y: 0,
         opacity: 1,
-        duration: 1,
-        ease: "none",
+        duration: 0.8,
+        ease: "power2.out",
         scrollTrigger: {
-          trigger: footerColumns,
-          start: "top bottom",
+          trigger: footerContent,
+          start: "top bottom-=100",
           end: "top center",
-          scrub: true,
+          scrub: 1,
           toggleActions: "play none none reverse"
         }
       }
@@ -32,22 +39,27 @@
 
     // Animate big text - coming from bottom
     gsap.from(footerBigtext, {
-      y: 100,
+      y: 50,
       opacity: 0,
-      duration: 1.2,
-      ease: "power3.out",
+      duration: 1,
+      ease: "power2.out",
       scrollTrigger: {
         trigger: footerBigtext,
-        start: "top bottom-=100",
+        start: "top bottom-=150",
         toggleActions: "play none none reverse"
       }
     });
+
+    // Cleanup function
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   });
 </script>
 
 <footer class="footer">
-  <div class="footer-content-area">
-    <div class="footer-columns" bind:this={footerColumns}>
+  <div class="footer-content-area" bind:this={footerContent}>
+    <div class="footer-columns">
       <div>
         <h4>MARMURART</h4>
         <p>Str. Exemplu, Nr. 123<br />București, România</p>

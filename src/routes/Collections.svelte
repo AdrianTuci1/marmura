@@ -1,6 +1,5 @@
 <script>
   import { fade } from 'svelte/transition';
-  import FloatingBar from '../components/FloatingBar.svelte';
   import CollectionCard from '../components/CollectionCard.svelte';
   import { showFilters, gridView, selectedCategory, searchQuery, toggleFilters, setCategory, setGridView } from '../lib/stores/collections';
   import { collections } from '../lib/data/collections';
@@ -21,12 +20,6 @@
       {/each}
     </div>
   </div>
-
-  <FloatingBar 
-    {gridView}
-    onToggleFilters={toggleFilters}
-    onToggleGridView={setGridView}
-  />
 
   {#if $showFilters}
     <div class="filters-overlay" transition:fade>

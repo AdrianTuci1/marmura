@@ -1,22 +1,97 @@
 <script>
   import { router } from 'tinro';
+  import { onMount, onDestroy } from 'svelte';
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
   import SlabCard from '../../components/SlabCard.svelte';
   import { collections } from '../../lib/data/collections';
   
+  const isBrowser = typeof window !== 'undefined';
+  
+  if (isBrowser) {
+    gsap.registerPlugin(ScrollTrigger);
+  }
+  
   $: collection = collections.find(c => c.id === router.params().id);
+  
+  let collectionImage;
+  let collectionSection;
+  let scrollTriggers = [];
+
+  onMount(() => {
+    // Imagine parallax
+    scrollTriggers.push(
+      ScrollTrigger.create({
+        trigger: collectionSection,
+        start: "top top",
+        end: "bottom top",
+        onUpdate: (self) => {
+          gsap.set(collectionImage.querySelector('img'), {
+            y: 200 * self.progress
+          });
+        }
+      })
+    );
+
+    // Animație pentru titlu
+    gsap.from('.collection-title', {
+      y: 30,
+      opacity: 0,
+      duration: 1,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: '.collection-title',
+        start: "top bottom-=100",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    // Animație pentru descriere
+    gsap.from('.collection-description', {
+      y: 30,
+      opacity: 0,
+      duration: 1,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: '.collection-description',
+        start: "top center+=100",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    // Animație pentru grid-ul de plăci
+    gsap.from('.slabs-grid', {
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: '.slabs-grid',
+        start: "top center+=150",
+        toggleActions: "play none none reverse"
+      }
+    });
+  });
+
+  onDestroy(() => {
+    scrollTriggers.forEach(trigger => trigger.kill());
+  });
 </script>
 
 <main>
   {#if collection}
-    <div class="collection-header">
-      <div class="collection-image">
+    <div class="collection-header" bind:this={collectionSection}>
+      <div class="collection-image" bind:this={collectionImage}>
         <img src={collection.image} alt={collection.name} />
+        <div class="collection-title">
+          <h1>{collection.name}</h1>
+          <p class="category">{collection.category}</p>
+        </div>
       </div>
-      <div class="collection-info">
-        <h1>{collection.name}</h1>
-        <p class="category">{collection.category}</p>
-        <p class="description">{collection.longDescription}</p>
-      </div>
+    </div>
+
+    <div class="collection-description">
+      <p>{collection.longDescription}</p>
     </div>
 
     <div class="slabs-grid">
@@ -34,26 +109,23 @@
 
 <style>
   main {
-    padding-top: 100px;
+    padding-top: 0;
     min-height: 100vh;
     background-color: #f5f5f5;
   }
 
   .collection-header {
-    background: white;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 2rem;
-    align-items: start;
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
   }
 
   .collection-image {
     width: 100%;
+    height: 100%;
     position: relative;
-    padding-top: 75%;
-    border-radius: 12px;
+    border-radius: 24px;
     overflow: hidden;
   }
 
@@ -64,39 +136,52 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    will-change: transform;
+    object-position: center -150px;
   }
 
-  .collection-info {
-    padding: 1rem 0;
+  .collection-title {
+    position: absolute;
+    bottom: 4rem;
+    left: 4rem;
+    color: white;
+    z-index: 2;
+    max-width: 600px;
   }
 
-  .collection-info h1 {
+  .collection-title h1 {
     margin: 0 0 1rem 0;
-    font-size: 2rem;
+    font-size: 3.5rem;
     font-weight: 600;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   }
 
   .category {
     display: inline-block;
-    background: #333;
+    background: rgba(0, 0, 0, 0.7);
     color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
+    padding: 0.5rem 1.5rem;
+    border-radius: 30px;
+    font-size: 1rem;
     margin-bottom: 1rem;
   }
 
-  .description {
-    color: #666;
-    line-height: 1.6;
-    font-size: 1.1rem;
+  .collection-description {
+    padding: 6rem 4rem;
+    background: white;
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
   }
 
   .slabs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
     gap: 2rem;
-    padding: 2rem;
+    padding: 4rem;
+    background: #f5f5f5;
   }
 
   .not-found {
@@ -120,17 +205,24 @@
   }
 
   @media (max-width: 768px) {
-    .collection-header {
-      grid-template-columns: 1fr;
+    .collection-title {
+      bottom: 2rem;
+      left: 2rem;
+      right: 2rem;
     }
 
-    .collection-image {
-      padding-top: 56.25%;
+    .collection-title h1 {
+      font-size: 2.5rem;
+    }
+
+    .collection-description {
+      padding: 4rem 2rem;
+      font-size: 1.1rem;
     }
 
     .slabs-grid {
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      padding: 1rem;
+      padding: 2rem;
     }
   }
 </style> 

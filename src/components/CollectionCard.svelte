@@ -3,7 +3,6 @@
   export let name;
   export let image;
   export let category;
-  export let slabs;
 </script>
 
 <a href="/colectii/{id}" class="collection-card">
@@ -11,9 +10,6 @@
     <img src={image} alt={name} />
     <div class="category-chip">
       {category}
-    </div>
-    <div class="slabs-count">
-      {slabs.length} plăci
     </div>
   </div>
   <div class="collection-info">
@@ -64,18 +60,6 @@
     backdrop-filter: blur(4px);
   }
 
-  .slabs-count {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    backdrop-filter: blur(4px);
-  }
 
   .collection-info {
     padding: 1.2rem 0.4rem;
