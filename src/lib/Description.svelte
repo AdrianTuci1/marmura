@@ -22,7 +22,7 @@
     position: relative;
     z-index: 2;
     background: rgb(255, 255, 255);
-    padding: 100px 0 150px 0;
+    padding: 75px 0 150px 0;
     margin-top: 90vh;
   }
 

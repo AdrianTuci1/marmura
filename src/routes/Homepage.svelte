@@ -55,7 +55,7 @@
         <span class="image-text">ELEGANTA SI DURABILITATE</span>
       </div>
       <div bind:this={descriptionSection}>
-        <Description />
+        <Description />   
       </div>
       <Nautati />
       <Projects />

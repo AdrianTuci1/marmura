@@ -3,7 +3,7 @@
 </script>
 
 <div class="showroom-container">
-  <span>FA O VIZITA</span>
+  <span>FA O VIZITA LA</span>
   <h2 class="title">SHOWROOM</h2>
   <div class="image-container">
     <img src={showroomImage} alt="Showroom Slatina" />
