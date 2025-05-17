@@ -3,10 +3,10 @@
 
   let isCollectionsOpen = false;
   const collections = [
-    { name: 'COLECȚIA 1', image: 'https://images.adsttc.com/media/images/5e1e/2a28/3312/fd58/9c00/0a75/newsletter/FI.jpg?1579035167' },
-    { name: 'COLECȚIA 2', image: 'https://www.granit.co.uk/wp-content/uploads/2016/12/ab_wandsworth_common_west_side_02.jpg' },  
-    { name: 'COLECȚIA 3', image: 'https://a.storyblok.com/f/236904/497x350/798c895dd3/hashotel-hasselt.png/m/1080x0' },
-    { name: 'COLECȚIA 4', image: 'https://static.dezeen.com/uploads/2020/01/vicostone-ultrathin-quartz-slab-collection-products-design-interiors-_dezeen_1704_hero.jpg' }
+    { name: 'COLECTIA 1', image: 'https://images.adsttc.com/media/images/5e1e/2a28/3312/fd58/9c00/0a75/newsletter/FI.jpg?1579035167' },
+    { name: 'COLECTIA 2', image: 'https://www.granit.co.uk/wp-content/uploads/2016/12/ab_wandsworth_common_west_side_02.jpg' },  
+    { name: 'COLECTIA 3', image: 'https://a.storyblok.com/f/236904/497x350/798c895dd3/hashotel-hasselt.png/m/1080x0' },
+    { name: 'COLECTIA 4', image: 'https://static.dezeen.com/uploads/2020/01/vicostone-ultrathin-quartz-slab-collection-products-design-interiors-_dezeen_1704_hero.jpg' }
   ];
 </script>
 
