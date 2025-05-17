@@ -31,8 +31,11 @@
       start: "top top",
       end: "bottom top",
       onUpdate: (self) => {
-        gsap.set(image, {
-          y: 100 * self.progress
+        gsap.set(image.querySelector('img'), {
+          y: 200 * self.progress
+        });
+        gsap.set(image.querySelector('.image-text'), {
+          opacity: 0.3 + (Math.pow(self.progress, 0.5) * 0.9)
         });
       }
     });
@@ -49,6 +52,7 @@
     <div id="smooth-content">
       <div class="image-container" bind:this={image}>
         <img src="/landing.png" alt="MarmurArt Landing" />
+        <span class="image-text">ELEGANTA SI DURABILITATE</span>
       </div>
       <div bind:this={descriptionSection}>
         <Description />
@@ -69,6 +73,16 @@
     overflow: hidden;
   }
 
+  .image-text {
+    position: absolute;
+    bottom: 5px;
+    left: 20px;
+    font-size: 1.8rem;
+    color: #fff;
+    opacity: 0.3;
+    font-weight: 600;
+  }
+
   #smooth-wrapper {
     position: fixed;
     top: 0;
@@ -87,8 +101,8 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
-    z-index: 1;
+    height: 90vh;
+    z-index: 2;
     border-radius: 0 0 26px 26px;
     overflow: hidden;
   }
@@ -97,6 +111,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center -100px;
+    object-position: center -120px;
   }
 </style> 

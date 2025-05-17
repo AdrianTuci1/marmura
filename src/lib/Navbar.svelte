@@ -1,5 +1,6 @@
 <script>
   import { fade } from 'svelte/transition';
+  import { wishlist } from '../lib/stores/wishlist.js';
 
   let isCollectionsOpen = false;
   const collections = [
@@ -56,11 +57,14 @@
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
       </button>
-      <button class="icon-button" aria-label="Salvează">
+      <a href="/wishlist" class="icon-button wishlist-button" aria-label="Lista de favorite">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
         </svg>
-      </button>
+        {#if $wishlist.length > 0}
+          <span class="wishlist-count">{$wishlist.length}</span>
+        {/if}
+      </a>
       <button class="icon-button" aria-label="Limbă">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10"></circle>
@@ -141,6 +145,8 @@
     padding: 0.5rem;
     color: #333;
     transition: color 0.3s ease;
+    position: relative;
+    text-decoration: none;
   }
 
   .icon-button:hover {
@@ -152,6 +158,26 @@
     height: 20px;
   }
 
+  .wishlist-button {
+    position: relative;
+  }
+
+  .wishlist-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff4444;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .collections-wrapper {
     position: relative;
     z-index: 1001;
@@ -159,7 +185,7 @@
 
   .collections-dropdown {
     position: fixed;
-    top: 72px; /* Adjust this value based on your navbar height */
+    top: 72px;
     left: 0;
     width: 100%;
     background: white;

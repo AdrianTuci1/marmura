@@ -9,6 +9,7 @@
   import AboutPage from './routes/About.svelte';
   import ArticlesPage from './routes/Articles.svelte';
   import ContactPage from './routes/Contact.svelte';
+  import WishlistPage from './routes/Wishlist.svelte';
 </script>
 
 <Navbar />
@@ -32,6 +33,9 @@
   </Route>
   <Route path="/contact">
     <ContactPage />
+  </Route>
+  <Route path="/wishlist">
+    <WishlistPage />
   </Route>
 </router>
 
