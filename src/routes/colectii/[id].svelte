@@ -33,32 +33,6 @@
       })
     );
 
-    // Animație pentru titlu
-    gsap.from('.collection-title', {
-      y: 30,
-      opacity: 0,
-      duration: 1,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: '.collection-title',
-        start: "top bottom-=100",
-        toggleActions: "play none none reverse"
-      }
-    });
-
-    // Animație pentru descriere
-    gsap.from('.collection-description', {
-      y: 30,
-      opacity: 0,
-      duration: 1,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: '.collection-description',
-        start: "top center+=100",
-        toggleActions: "play none none reverse"
-      }
-    });
-
     // Animație pentru grid-ul de plăci
     gsap.from('.slabs-grid', {
       y: 30,
@@ -78,34 +52,33 @@
   });
 </script>
 
-<main>
-  {#if collection}
-    <div class="collection-header" bind:this={collectionSection}>
-      <div class="collection-image" bind:this={collectionImage}>
-        <img src={collection.image} alt={collection.name} />
-        <div class="collection-title">
-          <h1>{collection.name}</h1>
-          <p class="category">{collection.category}</p>
+  <main>
+    {#if collection}
+      <div class="collection-header" bind:this={collectionSection}>
+        <div class="collection-image" bind:this={collectionImage}>
+          <img src={collection.image} alt={collection.name} />
+          <div class="collection-title">
+            <h1>{collection.name}</h1>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="collection-description">
-      <p>{collection.longDescription}</p>
-    </div>
+      <div class="collection-description">
+        <p>{collection.longDescription}</p>
+      </div>
 
-    <div class="slabs-grid">
-      {#each collection.slabs as slab}
-        <SlabCard {...slab} collectionId={collection.id} />
-      {/each}
-    </div>
-  {:else}
-    <div class="not-found">
-      <h1>Colecția nu a fost găsită</h1>
-      <a href="/colectii" class="back-button">Înapoi la colecții</a>
-    </div>
-  {/if}
-</main>
+      <div class="slabs-grid">
+        {#each collection.slabs as slab}
+          <SlabCard {...slab} collectionId={collection.id} />
+        {/each}
+      </div>
+    {:else}
+      <div class="not-found">
+        <h1>Colecția nu a fost găsită</h1>
+        <a href="/colectii" class="back-button">Înapoi la colecții</a>
+      </div>
+    {/if}
+  </main>
 
 <style>
   main {
@@ -142,37 +115,26 @@
 
   .collection-title {
     position: absolute;
-    bottom: 4rem;
+    bottom: 0.4rem;
     left: 4rem;
-    color: white;
+    color: rgb(20, 20, 24);
     z-index: 2;
     max-width: 600px;
   }
 
   .collection-title h1 {
     margin: 0 0 1rem 0;
-    font-size: 3.5rem;
+    font-size: 3.8rem;
     font-weight: 600;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   }
 
-  .category {
-    display: inline-block;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 0.5rem 1.5rem;
-    border-radius: 30px;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-  }
 
   .collection-description {
-    padding: 6rem 4rem;
+    padding: 2rem 20px;
     background: white;
-    max-width: 800px;
     margin: 0 auto;
-    font-size: 1.2rem;
-    line-height: 1.8;
+    font-size: 3.2rem;
+    line-height: 1;
     color: #333;
   }
 

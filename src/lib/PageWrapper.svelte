@@ -4,22 +4,27 @@
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   import { ScrollSmoother } from 'gsap/ScrollSmoother';
   import FloatingBar from '../components/FloatingBar.svelte';
+  import SlabBottomBar from '../components/SlabBottomBar.svelte';
   import Footer from './Footer.svelte';
   import { gridView, toggleFilters, setGridView } from './stores/collections';
+  import { slabBottomBar } from './stores/slabBottomBar';
 
   gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
   export let showFloatingBar = false;
+  export let disableSmoothScroll = false;
   let smoother;
 
   onMount(() => {
-    smoother = ScrollSmoother.create({
-      wrapper: "#smooth-wrapper",
-      content: "#smooth-content",
-      smooth: 1.8,
-      effects: true,
-      normalizeScroll: true
-    });
+    if (!disableSmoothScroll) {
+      smoother = ScrollSmoother.create({
+        wrapper: "#smooth-wrapper",
+        content: "#smooth-content",
+        smooth: 1.8,
+        effects: true,
+        normalizeScroll: true
+      });
+    }
   });
 
   onDestroy(() => {
@@ -28,17 +33,27 @@
 </script>
 
 <div class="page-wrapper">
-  <div id="smooth-wrapper">
-    <div id="smooth-content">
-      <main>
-        <slot />
-      </main>
+  {#if disableSmoothScroll}
+    <main>
+      <slot />
+    </main>
 
-      <div class="footer-container">
-        <Footer />
+    <div class="footer-container">
+      <Footer />
+    </div>
+  {:else}
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <main>
+          <slot />
+        </main>
+
+        <div class="footer-container">
+          <Footer />
+        </div>
       </div>
     </div>
-  </div>
+  {/if}
 
   {#if showFloatingBar}
     <div class="floating-bar-wrapper">
@@ -46,6 +61,15 @@
         {gridView}
         onToggleFilters={toggleFilters}
         onToggleGridView={setGridView}
+      />
+    </div>
+  {/if}
+
+  {#if $slabBottomBar.show}
+    <div class="slab-bottom-bar-wrapper">
+      <SlabBottomBar 
+        slabName={$slabBottomBar.slabName} 
+        collectionName={$slabBottomBar.collectionName} 
       />
     </div>
   {/if}
@@ -92,7 +116,18 @@
     pointer-events: none;
   }
 
-  :global(.floating-bar) {
+  .slab-bottom-bar-wrapper {
+    position: fixed;
+    padding: 20px;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    pointer-events: none;
+  }
+
+  :global(.floating-bar),
+  :global(.slab-bottom-bar) {
     pointer-events: auto;
   }
 </style> 
