@@ -1,11 +1,15 @@
 <script>
   import { onMount } from 'svelte';
   import Swiper from 'swiper';
-  import { Navigation, Pagination } from 'swiper/modules';
+  import { Pagination } from 'swiper/modules';
   import 'swiper/css';
   import 'swiper/css/navigation';
   import 'swiper/css/pagination';
-    import RisingText from './RisingText.svelte';
+  import RisingText from './RisingText.svelte';
+  import gsap from 'gsap';
+  import ScrollTrigger from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
 
   let swiper;
   const projects = [
@@ -61,6 +65,19 @@
         },
       },
     });
+
+    gsap.fromTo('.project-card img', 
+      { scale: 1.1 },
+      { 
+        scale: 1,
+        duration: 1,
+        scrollTrigger: {
+          trigger: '.projects-section',
+          start: 'top center',
+          once: true
+        }
+      }
+    );
   });
 </script>
 
@@ -73,8 +90,7 @@
           <div class="swiper-slide">
             <div class="project-card">
               <img src={project.image} alt={project.title} />
-              <h3>{project.title}</h3>
-              <p>{project.description}</p>
+              <h3>{project.title.toUpperCase()}</h3>
             </div>
           </div>
         {/each}
@@ -108,17 +124,17 @@
     padding: 2rem 0;
   }
 
+
   .project-card {
-    background: #2a2a2a;
-    border-radius: 12px;
     overflow: hidden;
   }
 
   .project-card img {
     width: 100%;
     aspect-ratio: 3/4;
+    background: #2a2a2a;
     object-fit: cover;
-    border-radius: 12px 12px 0 0;
+    border-radius: 12px;
   }
 
   .project-card h3 {
@@ -128,12 +144,7 @@
     text-align: left;
   }
 
-  .project-card p {
-    padding: 0 1rem 1rem;
-    margin: 0;
-    color: #ccc;
-    text-align: left;
-  }
+
 
   :global(.swiper) {
     cursor: grab;

@@ -5,6 +5,11 @@
   import { slabBottomBar } from '../../../lib/stores/slabBottomBar';
   import gsap from 'gsap';
   import ScrollTrigger from 'gsap/ScrollTrigger';
+  import Swiper from 'swiper';
+  import { Pagination } from 'swiper/modules';
+  import 'swiper/css';
+  import 'swiper/css/pagination';
+  import SlabCard from '../../../components/SlabCard.svelte';
   
   gsap.registerPlugin(ScrollTrigger);
 
@@ -12,20 +17,75 @@
     id: string;
     slabId: string;
   }
+
+  interface GalleryImage {
+    url: string;
+    format: 'portrait' | 'landscape';
+  }
+
+  interface Texture {
+    name: string;
+    image: string;
+    finish: string;
+  }
+
+  interface Slab {
+    id: string;
+    name: string;
+    image: string;
+    type: string;
+    gallery: GalleryImage[];
+    textures: Texture[];
+    characteristics?: string;
+  }
+
+  interface Collection {
+    id: string;
+    name: string;
+    image: string;
+    category: string;
+    description: string;
+    longDescription: string;
+    slabs: Slab[];
+  }
   
   // Find the collection and slab
   $: params = router.params() as unknown as RouteParams;
-  $: collection = collections.find(c => c.id === params.id);
-  $: slab = collection?.slabs.find(s => s.id === params.slabId);
+  $: collection = collections.find(c => c.id === params.id) as Collection | undefined;
+  $: slab = collection?.slabs.find(s => s.id === params.slabId) as Slab | undefined;
 
   let slab3dRef: HTMLDivElement;
   let textureImages: HTMLImageElement[] = [];
   let texturesSection: HTMLDivElement;
+  let swiper;
 
   onMount(() => {
     if (slab && collection) {
       slabBottomBar.show(slab.name, collection.name);
     }
+
+    // Initialize Swiper
+    swiper = new Swiper('.gallery-swiper', {
+      modules: [Pagination],
+      slidesPerView: 'auto',
+      spaceBetween: 24,
+      grabCursor: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      breakpoints: {
+        640: {
+          spaceBetween: 24,
+        },
+        768: {
+          spaceBetween: 24,
+        },
+        1024: {
+          spaceBetween: 24,
+        },
+      },
+    });
 
     // Animate texture images with ScrollTrigger
     textureImages.forEach((img, index) => {
@@ -132,18 +192,71 @@
 
   {#if collection && slab}
     <div class="textures-section" bind:this={texturesSection}>
-      <div class="textures-title">TEXTURI({slab.image.length})</div>
+      <div class="textures-title">TEXTURI({slab.textures.length})</div>
       <div class="textures-grid">
-        {#each Array(4) as _, i}
+        {#each slab.textures as texture}
           <div class="texture-item">
             <div class="texture-img-wrapper">
               <img 
-                src={slab.image} 
-                alt={`Textură ${i + 1}`} 
-                bind:this={textureImages[i]}
+                src={texture.image} 
+                alt={texture.name} 
+                bind:this={textureImages[textureImages.length]}
               />
             </div>
+            <div class="texture-info">
+              <div class="texture-name">{texture.name}</div>
+              <div class="texture-finish">{texture.finish}</div>
+            </div>
           </div>
+        {/each}
+      </div>
+    </div>
+
+    <div class="info-columns">
+      <div class="info-column">
+        <div class="info-title">📦 Livrare și montaj</div>
+        <ul class="info-list">
+          <li> Livrare rapidă în toată țara</li>
+          <li> Servicii de montaj disponibile la cerere</li>
+          <li> Mostre gratuite disponibile pentru testare înainte de comandă</li>
+        </ul>
+      </div>
+      <div class="info-column">
+        <div class="info-title">📈 De ce să alegi Marmur Art?</div>
+        <ul class="info-list">
+          <li> Experiență de peste 31 de ani în prelucrarea pietrei naturale</li>
+          <li> Produse premium in stoc, direct la importator</li>
+          <li> Garanția calității și suport dedicat pentru clienți</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="gallery-section">
+      <div class="gallery-title">GALERIE</div>
+      <div class="gallery-swiper swiper">
+        <div class="swiper-wrapper">
+          {#each slab.gallery as image}
+            <div class="swiper-slide">
+              <div class="gallery-image" class:landscape={image.format === 'landscape'}>
+                <img src={image.url} alt='galerry' />
+              </div>
+            </div>
+          {/each}
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+
+    <div class="other-colors-section">
+      <div class="other-colors-title">ALTE CULORI DIN ACEEAȘI COLECȚIE</div>
+      <div class="other-colors-grid">
+        {#each collection.slabs.filter(s => s.id !== slab.id) as otherSlab}
+          <SlabCard
+            id={otherSlab.id}
+            name={otherSlab.name}
+            image={otherSlab.image}
+            collectionId={collection.id}
+          />
         {/each}
       </div>
     </div>
@@ -324,6 +437,226 @@
       padding: 1.5rem;
     }
     .textures-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+
+  .info-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 2rem;
+    background: #fff;
+    margin: 2rem auto;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+
+  .info-column {
+    padding: 1.5rem;
+    background: #f8f8f8;
+    border-radius: 12px;
+  }
+
+  .info-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #222;
+    margin-bottom: 1.2rem;
+  }
+
+  .info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .info-list li {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: #444;
+    line-height: 1.5;
+  }
+
+  .info-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 900px) {
+    .info-columns {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding: 1.5rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .info-columns {
+      padding: 1rem;
+    }
+    .info-title {
+      font-size: 1.3rem;
+    }
+    .info-list li {
+      font-size: 1rem;
+    }
+  }
+
+  .gallery-section {
+    padding: 0rem 0rem 2rem 0rem;
+    background: #1a1a1a;
+    margin: 2rem auto;
+    color: white;
+  }
+
+  .gallery-title {
+    font-weight: 700;
+    font-size: 2.5rem;
+    letter-spacing: 0.04em;
+    color: white;
+    padding-top: 2rem;
+    padding-left: 20px;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+
+  .gallery-swiper {
+    width: 100%;
+    padding: 2rem 0;
+  }
+
+  .gallery-image {
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    height: 600px;
+    width: 400px;
+    margin: 0 auto;
+  }
+
+  .gallery-image.landscape {
+    width: 733px;
+  }
+
+  .gallery-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .gallery-image:hover img {
+    cursor: pointer;
+  }
+
+  :global(.gallery-swiper) {
+    cursor: grab;
+  }
+
+  :global(.gallery-swiper:active) {
+    cursor: grabbing;
+  }
+
+  :global(.swiper-slide) {
+    width: auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  :global(.swiper-pagination-bullet) {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  :global(.swiper-pagination-bullet-active) {
+    background: white;
+  }
+
+  @media (max-width: 900px) {
+    .gallery-section {
+      padding: 1.5rem;
+    }
+    .gallery-image {
+      height: 350px;
+      width: 262px;
+    }
+    .gallery-image.landscape {
+      width: 467px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .gallery-section {
+      padding: 1rem;
+    }
+    .gallery-title {
+      font-size: 2rem;
+    }
+    .gallery-image {
+      height: 300px;
+      width: 225px;
+    }
+    .gallery-image.landscape {
+      width: 400px;
+    }
+  }
+
+  .texture-info {
+    padding: 0.75rem 1rem;
+    background: #f8f8f8;
+    border-top: 1px solid #eee;
+  }
+
+  .texture-name {
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 0.25rem;
+  }
+
+  .texture-finish {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .other-colors-section {
+    padding: 2rem;
+    background: #fff;
+    margin: 2rem auto;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+
+  .other-colors-title {
+    font-weight: 700;
+    font-size: 2.5rem;
+    letter-spacing: 0.04em;
+    color: #222;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+
+  .other-colors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  @media (max-width: 900px) {
+    .other-colors-section {
+      padding: 1.5rem;
+    }
+    .other-colors-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .other-colors-section {
+      padding: 1rem;
+    }
+    .other-colors-title {
+      font-size: 2rem;
+    }
+    .other-colors-grid {
       grid-template-columns: 1fr;
       gap: 1rem;
     }

@@ -11,13 +11,76 @@ export const collections = [
         id: 'slab-1-1',
         name: 'Marmură Carrara',
         image: 'https://pompeiiquartz.com/wp-content/uploads/2024/03/Galaxy-Full-Slab.jpg',
-        type: 'marmură'
+        type: 'marmură',
+        gallery: [
+          {
+            url: 'https://media.licdn.com/dms/image/v2/D5612AQGn4ZkcmuppKw/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1696477503420?e=2147483647&v=beta&t=w8S5MCj4Rvoj2sMVmlCS3CxOeh55DXQ95hUhYedZ3f0',
+            format: 'portrait'
+          },
+          {
+            url: 'https://media.houseandgarden.co.uk/photos/61893daad9ae96d083cd0c0a/master/w_1600%2Cc_limit/double-take-04-house-11may17-michaelsinclair_b.jpg',
+            format: 'landscape'
+          },
+          {
+            url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8XgDNMN1Jko2-FcXXr-7YW4PTSuM9fBFFBA&s',
+            format: 'portrait'
+          },
+          {
+            url: 'https://georgestones.com/wp-content/uploads/2024/01/Black-Statuario-Marble-background-wall-1024x687.jpg',
+            format: 'landscape'
+          },
+          {
+            url: 'https://i.pinimg.com/736x/4f/8b/61/4f8b6177ef435a0b28685ff62e6e0ee8.jpg',
+            format: 'portrait'
+          }
+        ],
+        textures: [
+          {
+            name: 'Natural Plus',
+            image: 'https://pompeiiquartz.com/wp-content/uploads/2024/03/Galaxy-Full-Slab.jpg',
+            finish: 'R10'
+          },
+          {
+            name: 'Flamed',
+            image: 'https://images.adsttc.com/media/images/62f6/2095/f08d/d163/3f1d/26cd/newsletter/from-monumental-ruins-to-lavish-interiors-16-projects-that-prove-marble-is-a-timeless-material_16.jpg?1660297370',
+            finish: 'R11'
+          },
+          {
+            name: 'Strutturato',
+            image: 'https://www.decorilla.com/online-decorating/wp-content/uploads/2022/04/Marble-bathroom-ideas-.jpg',
+            finish: 'R11'
+          }
+        ]
       },
       {
         id: 'slab-1-2',
         name: 'Granit Nero',
         image: 'https://igranites.com/images/granite/g654_fine_granite.jpg',
-        type: 'granit'
+        type: 'granit',
+        gallery: [
+          'https://igranites.com/images/granite/g654_fine_granite.jpg',
+          'https://images.adsttc.com/media/images/62f6/2095/f08d/d163/3f1d/26cd/newsletter/from-monumental-ruins-to-lavish-interiors-16-projects-that-prove-marble-is-a-timeless-material_16.jpg?1660297370',
+          'https://www.decorilla.com/online-decorating/wp-content/uploads/2022/04/Marble-bathroom-ideas-.jpg',
+          'https://georgestones.com/wp-content/uploads/2024/01/Black-Statuario-Marble-background-wall-1024x687.jpg',
+          'https://i.pinimg.com/736x/4f/8b/61/4f8b6177ef435a0b28685ff62e6e0ee8.jpg'
+        ],
+        textures: [
+          {
+            name: 'Natural Plus',
+            image: 'https://igranites.com/images/granite/g654_fine_granite.jpg',
+            finish: 'R10'
+          },
+          {
+            name: 'Flamed',
+            image: 'https://images.adsttc.com/media/images/62f6/2095/f08d/d163/3f1d/26cd/newsletter/from-monumental-ruins-to-lavish-interiors-16-projects-that-prove-marble-is-a-timeless-material_16.jpg?1660297370',
+            finish: 'R11'
+          },
+          {
+            name: 'Strutturato',
+            image: 'https://www.decorilla.com/online-decorating/wp-content/uploads/2022/04/Marble-bathroom-ideas-.jpg',
+            finish: 'R11'
+          }
+        ]
       }
     ]
   },
@@ -33,7 +96,31 @@ export const collections = [
         id: 'slab-2-1',
         name: 'Cuarț Baltic',
         image: 'https://example.com/baltic.jpg',
-        type: 'cuarț'
+        type: 'cuarț',
+        gallery: [
+          'https://example.com/baltic.jpg',
+          'https://images.adsttc.com/media/images/62f6/2095/f08d/d163/3f1d/26cd/newsletter/from-monumental-ruins-to-lavish-interiors-16-projects-that-prove-marble-is-a-timeless-material_16.jpg?1660297370',
+          'https://www.decorilla.com/online-decorating/wp-content/uploads/2022/04/Marble-bathroom-ideas-.jpg',
+          'https://georgestones.com/wp-content/uploads/2024/01/Black-Statuario-Marble-background-wall-1024x687.jpg',
+          'https://i.pinimg.com/736x/4f/8b/61/4f8b6177ef435a0b28685ff62e6e0ee8.jpg'
+        ],
+        textures: [
+          {
+            name: 'Natural Plus',
+            image: 'https://example.com/baltic.jpg',
+            finish: 'R10'
+          },
+          {
+            name: 'Flamed',
+            image: 'https://images.adsttc.com/media/images/62f6/2095/f08d/d163/3f1d/26cd/newsletter/from-monumental-ruins-to-lavish-interiors-16-projects-that-prove-marble-is-a-timeless-material_16.jpg?1660297370',
+            finish: 'R11'
+          },
+          {
+            name: 'Strutturato',
+            image: 'https://www.decorilla.com/online-decorating/wp-content/uploads/2022/04/Marble-bathroom-ideas-.jpg',
+            finish: 'R11'
+          }
+        ]
       }
     ]
   },
@@ -49,7 +136,31 @@ export const collections = [
         id: 'slab-3-1',
         name: 'Marmură Travertin',
         image: 'https://example.com/travertin.jpg',
-        type: 'marmură'
+        type: 'marmură',
+        gallery: [
+          'https://example.com/travertin.jpg',
+          'https://images.adsttc.com/media/images/62f6/2095/f08d/d163/3f1d/26cd/newsletter/from-monumental-ruins-to-lavish-interiors-16-projects-that-prove-marble-is-a-timeless-material_16.jpg?1660297370',
+          'https://www.decorilla.com/online-decorating/wp-content/uploads/2022/04/Marble-bathroom-ideas-.jpg',
+          'https://georgestones.com/wp-content/uploads/2024/01/Black-Statuario-Marble-background-wall-1024x687.jpg',
+          'https://i.pinimg.com/736x/4f/8b/61/4f8b6177ef435a0b28685ff62e6e0ee8.jpg'
+        ],
+        textures: [
+          {
+            name: 'Natural Plus',
+            image: 'https://example.com/travertin.jpg',
+            finish: 'R10'
+          },
+          {
+            name: 'Flamed',
+            image: 'https://images.adsttc.com/media/images/62f6/2095/f08d/d163/3f1d/26cd/newsletter/from-monumental-ruins-to-lavish-interiors-16-projects-that-prove-marble-is-a-timeless-material_16.jpg?1660297370',
+            finish: 'R11'
+          },
+          {
+            name: 'Strutturato',
+            image: 'https://www.decorilla.com/online-decorating/wp-content/uploads/2022/04/Marble-bathroom-ideas-.jpg',
+            finish: 'R11'
+          }
+        ]
       }
     ]
   },
@@ -65,7 +176,31 @@ export const collections = [
         id: 'slab-4-1',
         name: 'Granit Imperial',
         image: 'https://example.com/imperial.jpg',
-        type: 'granit'
+        type: 'granit',
+        gallery: [
+          'https://example.com/imperial.jpg',
+          'https://images.adsttc.com/media/images/62f6/2095/f08d/d163/3f1d/26cd/newsletter/from-monumental-ruins-to-lavish-interiors-16-projects-that-prove-marble-is-a-timeless-material_16.jpg?1660297370',
+          'https://www.decorilla.com/online-decorating/wp-content/uploads/2022/04/Marble-bathroom-ideas-.jpg',
+          'https://georgestones.com/wp-content/uploads/2024/01/Black-Statuario-Marble-background-wall-1024x687.jpg',
+          'https://i.pinimg.com/736x/4f/8b/61/4f8b6177ef435a0b28685ff62e6e0ee8.jpg'
+        ],
+        textures: [
+          {
+            name: 'Natural Plus',
+            image: 'https://example.com/imperial.jpg',
+            finish: 'R10'
+          },
+          {
+            name: 'Flamed',
+            image: 'https://images.adsttc.com/media/images/62f6/2095/f08d/d163/3f1d/26cd/newsletter/from-monumental-ruins-to-lavish-interiors-16-projects-that-prove-marble-is-a-timeless-material_16.jpg?1660297370',
+            finish: 'R11'
+          },
+          {
+            name: 'Strutturato',
+            image: 'https://www.decorilla.com/online-decorating/wp-content/uploads/2022/04/Marble-bathroom-ideas-.jpg',
+            finish: 'R11'
+          }
+        ]
       }
     ]
   }

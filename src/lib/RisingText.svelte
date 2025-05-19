@@ -6,8 +6,8 @@
   
   export let text = '';
   export let delay = 0;
-  export let duration = 2;
-  export let stagger = 0.2;
+  export let duration = 0.4;
+  export let stagger = 0.1;
   export let finalColor = 'white'; // 'white' or 'black'
   export let fontSize = '1em'; // can be any valid CSS font size value
   
@@ -38,12 +38,12 @@
       duration: duration,
       stagger: stagger,
       delay: delay,
-      ease: "power2.inOut",
+      ease: "sine.inOut",
       scrollTrigger: {
         trigger: container,
-        start: "top 85%",
-        toggleActions: "play none none reverse",
-        once: true
+        start: "top 100%",
+        toggleActions: "play none none none",
+        once: true,
       }
     });
 
