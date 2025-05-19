@@ -1,23 +1,29 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import gsap from 'gsap';
   import { SplitText } from 'gsap/SplitText';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
   
   export let text = '';
   export let delay = 0;
-  export let duration = 2.5;
-  export let stagger = 0.03;
+  export let duration = 2;
+  export let stagger = 0.2;
   export let finalColor = 'white'; // 'white' or 'black'
   export let fontSize = '1em'; // can be any valid CSS font size value
   
   let container;
   let splitText;
+  let animation;
   
   onMount(() => {
-    gsap.registerPlugin(SplitText);
+    // Register plugins
+    gsap.registerPlugin(SplitText, ScrollTrigger);
     
     // Create split text
-    splitText = new SplitText(container, { type: "chars" });
+    splitText = new SplitText(container, { 
+      type: "chars",
+      charsClass: "char"
+    });
     
     // Initial state
     gsap.set(splitText.chars, {
@@ -26,14 +32,33 @@
       display: 'inline-block'
     });
     
-    // Animation
-    gsap.to(splitText.chars, {
+    // Create animation
+    animation = gsap.to(splitText.chars, {
       clipPath: "inset(0% 0 0 0)",
       duration: duration,
       stagger: stagger,
       delay: delay,
-      ease: "power2.inOut"
+      ease: "power2.inOut",
+      scrollTrigger: {
+        trigger: container,
+        start: "top 85%",
+        toggleActions: "play none none reverse",
+        once: true
+      }
     });
+
+    // Force a refresh of ScrollTrigger
+    ScrollTrigger.refresh();
+  });
+
+  onDestroy(() => {
+    if (animation) {
+      animation.kill();
+    }
+    if (splitText) {
+      splitText.revert();
+    }
+    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
   });
 </script>
 
@@ -48,6 +73,7 @@
     display: inline-block;
     white-space: nowrap;
     line-height: 0;
+    min-height: 1em;
   }
   
   .text-layer {
@@ -67,5 +93,10 @@
   
   .text-layer.light {
     z-index: 2;
+  }
+
+  :global(.char) {
+    display: inline-block;
+    position: relative;
   }
 </style> 

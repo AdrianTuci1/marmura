@@ -1,8 +1,8 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, mount } from 'svelte';
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-    import RisingText from './RisingText.svelte';
+  import RisingText from './RisingText.svelte';
 
   gsap.registerPlugin(ScrollTrigger);
   
@@ -30,12 +30,57 @@
     }
   ];
 
+  function splitTextIntoLines(text) {
+    const words = text.split(' ');
+    const firstLine = words.slice(0, 5).join(' ');
+    const secondLine = words.slice(5).join(' ');
+    return [firstLine, secondLine];
+  }
+
   function updateSlides() {
     const nextIndex = (currentIndex + 1) % images.length;
+    
+    // Update current slide
     currentSlideElement.querySelector('img').src = images[currentIndex].src;
-    currentSlideElement.querySelector('.description').textContent = images[currentIndex].description.toUpperCase();
+    const currentDescription = currentSlideElement.querySelector('.description');
+    currentDescription.innerHTML = '';
+    splitTextIntoLines(images[currentIndex].description.toUpperCase()).forEach((line, i) => {
+      const textLine = document.createElement('div');
+      textLine.className = 'text-line';
+      currentDescription.appendChild(textLine);
+      mount(RisingText, {
+        target: textLine,
+        props: {
+          text: line,
+          delay: i * 0.1,
+          duration: 1.5,
+          stagger: 0.1,
+          fontSize: "3.5rem",
+          finalColor: "white"
+        }
+      });
+    });
+
+    // Update next slide
     nextSlideElement.querySelector('img').src = images[nextIndex].src;
-    nextSlideElement.querySelector('.description').textContent = images[nextIndex].description.toUpperCase();
+    const nextDescription = nextSlideElement.querySelector('.description');
+    nextDescription.innerHTML = '';
+    splitTextIntoLines(images[nextIndex].description.toUpperCase()).forEach((line, i) => {
+      const textLine = document.createElement('div');
+      textLine.className = 'text-line';
+      nextDescription.appendChild(textLine);
+      mount(RisingText, {
+        target: textLine,
+        props: {
+          text: line,
+          delay: i * 0.1,
+          duration: 1.5,
+          stagger: 0.1,
+          fontSize: "3.5rem",
+          finalColor: "white"
+        }
+      });
+    });
   }
 
   async function handleNextSlide() {
@@ -73,7 +118,20 @@
       <img src={images[currentIndex].src} alt="Nautati" />
       <div class="overlay">
         <span class="title">NOUTATI</span>
-        <p class="description">{images[currentIndex].description.toUpperCase()}</p>
+        <div class="description">
+          {#each splitTextIntoLines(images[currentIndex].description.toUpperCase()) as line, i}
+            <div class="text-line">
+              <RisingText 
+                text={line} 
+                delay={i * 0.1} 
+                duration={1.5}
+                stagger={0.1}
+                fontSize="3.5rem" 
+                finalColor="white"
+              />
+            </div>
+          {/each}
+        </div>
       </div>
     </div>
     
@@ -81,7 +139,20 @@
       <img src={images[(currentIndex + 1) % images.length].src} alt="Next" />
       <div class="overlay">
         <span class="title">NOUTATI</span>
-        <div class="description"><RisingText text={images[(currentIndex + 1) % images.length].description.toUpperCase()} delay={0.2} fontSize="3.5rem" finalColor="white"/></div>
+        <div class="description">
+          {#each splitTextIntoLines(images[(currentIndex + 1) % images.length].description.toUpperCase()) as line, i}
+            <div class="text-line">
+              <RisingText 
+                text={line} 
+                delay={i * 0.1} 
+                duration={1.5}
+                stagger={0.1}
+                fontSize="3.5rem" 
+                finalColor="white"
+              />
+            </div>
+          {/each}
+        </div>
       </div>
     </div>
     
@@ -188,6 +259,15 @@
     font-size: 3.5rem;
     line-height: 1.2;
     padding-bottom: 3.7rem;
+    min-height: 4.2rem;
+  }
+
+  .text-line {
+    margin-bottom: 0.5rem;
+  }
+
+  .text-line:last-child {
+    margin-bottom: 0;
   }
 
   @media (max-width: 1024px) {

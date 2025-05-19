@@ -155,7 +155,7 @@
 
   .collection-title {
     padding-left: 20px;
-    padding-bottom: 3rem;
+    padding-bottom: 2rem;
     font-weight: bold;
   }
 
@@ -241,7 +241,7 @@
 
   .title-container {
     position: absolute;
-    bottom: 60px;
+    bottom: 30px;
     left: 30px;
     font-weight: 700;
     z-index: 10;

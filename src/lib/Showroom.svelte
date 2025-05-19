@@ -23,7 +23,7 @@
     font-weight: bold;
     color: #333;
     margin-top: -0.8rem;
-    padding-bottom: 3rem;
+    padding-bottom: 2rem;
   }
 
   .showroom-container {
