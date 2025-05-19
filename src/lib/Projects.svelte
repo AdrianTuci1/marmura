@@ -5,6 +5,7 @@
   import 'swiper/css';
   import 'swiper/css/navigation';
   import 'swiper/css/pagination';
+    import RisingText from './RisingText.svelte';
 
   let swiper;
   const projects = [
@@ -65,7 +66,7 @@
 
 <section class="projects-section">
   <div class="container">
-    <h2>PROIECTE</h2>
+    <div class="project-title"><RisingText text="PROIECTE" delay={0.2} fontSize="3.5rem" /></div>
     <div class="swiper">
       <div class="swiper-wrapper">
         {#each projects as project}
@@ -96,10 +97,10 @@
     padding: 0 10px;
   }
 
-  h2 {
+  .project-title {
     text-align: left;
-    margin-bottom: 2rem;
-    font-size: 3.5rem;
+    margin-bottom: 3rem;
+    font-weight: bold;
   }
 
   .swiper {

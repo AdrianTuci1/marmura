@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import gsap from 'gsap';
   import { Draggable } from 'gsap/Draggable';
+  import RisingText from './RisingText.svelte';
   
   let container;
   let isDragging = false;
@@ -88,7 +89,7 @@
 <div class="categories-container">
   <div class="header">
     <span>ALEGE DIN</span>
-    <h2>COLECȚII</h2>
+    <div class="collection-title"><RisingText text="COLECȚII" delay={0.2} fontSize="3.5rem" finalColor="black"/></div>
   </div>
   
   <div class="scroll-container">
@@ -103,8 +104,10 @@
         <div class="category-item" style="margin-left: {i === 0 ? '20px' : '0'}">
           <div class="image-container" class:square={category.ratio === 'square'} class:wide={category.ratio === 'wide'}>
             <img src={category.image} alt={category.title} draggable="false" />
+            <div class="title-container">
+              <RisingText text={category.title.toUpperCase()} delay={0.2} fontSize="3.7rem" />
+            </div>
           </div>
-          <p>{category.title}</p>
         </div>
       {/each}
     </div>
@@ -150,10 +153,10 @@
     font-weight: bold;
   }
 
-  h2 {
-    font-size: 3.5em;
+  .collection-title {
     padding-left: 20px;
-    margin-top: -0.8rem;
+    padding-bottom: 3rem;
+    font-weight: bold;
   }
 
   .scroll-container {
@@ -220,6 +223,7 @@
     width: 700px;
     user-select: none;
     -webkit-user-select: none;
+    position: relative;
   }
 
   .image-container.wide {
@@ -235,9 +239,11 @@
     -webkit-user-select: none;
   }
 
-  p {
-    margin: 10px 0 0 0;
-    text-align: center;
-    font-size: 1.1em;
+  .title-container {
+    position: absolute;
+    bottom: 60px;
+    left: 30px;
+    font-weight: 700;
+    z-index: 10;
   }
 </style> 

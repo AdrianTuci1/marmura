@@ -1,10 +1,11 @@
 <script>
   import showroomImage from '../assets/showroom.webp';
+    import RisingText from './RisingText.svelte';
 </script>
 
 <div class="showroom-container">
   <span>FA O VIZITA LA</span>
-  <h2 class="title">SHOWROOM</h2>
+  <h2 class="title"><RisingText text="SHOWROOM" delay={0.2} fontSize="3.5rem" finalColor="black"/></h2>
   <div class="image-container">
     <img src={showroomImage} alt="Showroom Slatina" />
   </div>
@@ -19,10 +20,10 @@
     font-weight: bold;
   }
   .title {
-    font-size: 3.5rem;
     font-weight: bold;
     color: #333;
     margin-top: -0.8rem;
+    padding-bottom: 3rem;
   }
 
   .showroom-container {
