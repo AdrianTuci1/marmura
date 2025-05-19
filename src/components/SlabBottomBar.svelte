@@ -4,26 +4,41 @@
 </script>
 
 <div class="slab-bottom-bar">
-  <div class="slab-bottom-name">
-    {slabName} <span class="slab-bottom-collection">{collectionName}</span>
+  <div class="slab-bottom-content">
+    <div class="slab-bottom-name">
+      {slabName.toUpperCase()} <span class="slab-bottom-collection">{collectionName.toUpperCase()}</span>
+    </div>
+    <div class="slab-bottom-actions">
+      <button class="slab-save" aria-label="Salvează">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+        </svg>
+      </button>
+      <button class="slab-request-info">REQUEST INFO</button>
+
+    </div>
   </div>
-  <button class="slab-request-info">REQUEST INFO</button>
 </div>
 
 <style>
   .slab-bottom-bar {
-    display: flex;
     background: #181818;
     color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     z-index: 9999;
     min-height: 60px;
     font-size: 1.2rem;
     box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
     width: 100%;
     border-radius: 14px;
+    display: flex;
+    align-items: center;
+  }
+  .slab-bottom-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    width: 100%;
   }
   .slab-bottom-name {
     font-weight: 600;
@@ -35,6 +50,11 @@
     font-size: 1rem;
     color: #bdbdbd;
     margin-left: 1.2rem;
+  }
+  .slab-bottom-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
   .slab-request-info {
     background: #fff;
@@ -51,8 +71,20 @@
     background: #222;
     color: #fff;
   }
+  .slab-save {
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+  .slab-save:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
   @media (max-width: 900px) {
-    .slab-bottom-bar {
+    .slab-bottom-content {
       padding: 0.7rem 1rem;
     }
   }

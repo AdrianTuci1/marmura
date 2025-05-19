@@ -55,11 +55,11 @@
       const y = e.clientY - rect.top;
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * 20;
-      const rotateY = ((x - centerX) / centerX) * 20;
+      const rotateX = ((y - centerY) / centerY) * 30;
+      const rotateY = ((x - centerX) / centerX) * 30;
       const img = slab3dRef.querySelector('img');
       if (img) {
-        img.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
+        img.style.transform = `translateZ(20px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
         img.classList.add('slab-3d-active');
       }
     };
@@ -67,7 +67,7 @@
     const handleMouseLeave = () => {
       const img = slab3dRef.querySelector('img');
       if (img) {
-        img.style.transform = '';
+        img.style.transform = 'translateZ(50px)';
         img.classList.remove('slab-3d-active');
       }
     };
@@ -198,6 +198,7 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    perspective: 1000px;
   }
   .slab-3d img {
     max-width: 50%;
@@ -211,6 +212,8 @@
     transition: transform 0.18s cubic-bezier(.03,.98,.52,.99), box-shadow 0.18s cubic-bezier(.03,.98,.52,.99);
     will-change: transform;
     background: #e0e0e0;
+    transform-style: preserve-3d;
+    transform: translateZ(20px);
   }
 
   .slab-section {
