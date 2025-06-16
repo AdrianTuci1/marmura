@@ -2,8 +2,10 @@
 // @ts-nocheck
 
   import { router, Route } from 'tinro';
+  import { onMount } from 'svelte';
   import Navbar from './lib/Navbar.svelte';
   import PageWrapper from './lib/PageWrapper.svelte';
+  import Preloader from './lib/Preloader.svelte';
   import ProjectsPage from './routes/Projects.svelte';
   import Homepage from './routes/Homepage.svelte';
   import CollectionsPage from './routes/Collections.svelte';
@@ -13,7 +15,28 @@
   import ArticlesPage from './routes/Articles.svelte';
   import ContactPage from './routes/Contact.svelte';
   import WishlistPage from './routes/Wishlist.svelte';
+
+  let initialLoading = true;
+  let pageLoading = false;
+
+  onMount(() => {
+    // Simulate initial loading
+    setTimeout(() => {
+      initialLoading = false;
+    }, 1500);
+
+    // Handle page transitions
+    router.subscribe(() => {
+      pageLoading = true;
+      setTimeout(() => {
+        pageLoading = false;
+      }, 500);
+    });
+  });
 </script>
+
+<Preloader type="initial" show={initialLoading} />
+<Preloader type="page" show={pageLoading} />
 
 <Navbar />
 

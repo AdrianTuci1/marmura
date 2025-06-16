@@ -16,7 +16,7 @@
     {
       src: 'https://www.marmomac.com/wp-content/uploads/2020/06/2.jpg',
       title: 'Nautați',
-      description: 'Ce este la moda in domeniul marmurii in 2025'
+      description: 'Ce este la moda in domeniul marmureii in 2025'
     },
     {
       src: 'https://images.adsttc.com/media/images/5e1b/c95b/3312/fd58/9c00/0143/large_jpg/_fi.jpg?1578879295',
@@ -52,9 +52,9 @@
         target: textLine,
         props: {
           text: line,
-          delay: i * 0.1,
-          duration: 1.5,
-          stagger: 0.1,
+          delay: i * 0.005,
+          duration: 0.3,
+          stagger: 0.02,
           fontSize: "3.5rem",
           finalColor: "white"
         }
@@ -73,9 +73,9 @@
         target: textLine,
         props: {
           text: line,
-          delay: i * 0.1,
-          duration: 1.5,
-          stagger: 0.1,
+          delay: i * 0.005,
+          duration: 0.3,
+          stagger: 0.5,
           fontSize: "3.5rem",
           finalColor: "white"
         }
@@ -123,8 +123,7 @@
             <div class="text-line">
               <RisingText 
                 text={line} 
-                delay={i * 0.1} 
-                duration={1.5}
+                duration={0.3}
                 stagger={0.1}
                 fontSize="3.5rem" 
                 finalColor="white"
@@ -144,8 +143,7 @@
             <div class="text-line">
               <RisingText 
                 text={line} 
-                delay={i * 0.1} 
-                duration={1.5}
+                duration={0.3}
                 stagger={0.1}
                 fontSize="3.5rem" 
                 finalColor="white"

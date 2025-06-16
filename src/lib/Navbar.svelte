@@ -1,14 +1,41 @@
 <script>
   import { fade } from 'svelte/transition';
   import { wishlist } from '../lib/stores/wishlist.js';
+  import { gsap } from 'gsap';
 
   let isCollectionsOpen = false;
+  let collectionItems = [];
+  let collectionsDropdown;
   const collections = [
     { name: 'COLECTIA 1', image: 'https://images.adsttc.com/media/images/5e1e/2a28/3312/fd58/9c00/0a75/newsletter/FI.jpg?1579035167' },
     { name: 'COLECTIA 2', image: 'https://www.granit.co.uk/wp-content/uploads/2016/12/ab_wandsworth_common_west_side_02.jpg' },  
     { name: 'COLECTIA 3', image: 'https://a.storyblok.com/f/236904/497x350/798c895dd3/hashotel-hasselt.png/m/1080x0' },
     { name: 'COLECTIA 4', image: 'https://static.dezeen.com/uploads/2020/01/vicostone-ultrathin-quartz-slab-collection-products-design-interiors-_dezeen_1704_hero.jpg' }
   ];
+
+  function handleCollectionsOpen() {
+    if (!isCollectionsOpen) {
+      isCollectionsOpen = true;
+      // Animate each collection item with a stagger effect only when opening
+      gsap.fromTo(collectionItems, 
+        { 
+          opacity: 0,
+          y: 10
+        },
+        { 
+          opacity: 1,
+          y: 0,
+          duration: 2,
+          stagger: 0.25,
+          ease: "power2.out"
+        }
+      );
+    }
+  }
+
+  function handleCollectionsClose() {
+    isCollectionsOpen = false;
+  }
 </script>
 
 <nav>
@@ -23,25 +50,30 @@
         <div class="collections-wrapper" 
              role="navigation"
              aria-label="Colecții"
-             on:mouseenter={() => isCollectionsOpen = true}
-             on:mouseleave={() => isCollectionsOpen = false}>
-          <a href="/colectii" aria-label="Colecții">COLECTII</a>
-          {#if isCollectionsOpen}
-            <div class="collections-dropdown" transition:fade>
-              <div class="navbar-transition-area" on:mouseenter={() => isCollectionsOpen = true} aria-hidden="true"></div>
-              <div class="collections-grid">
-                {#each collections as collection}
-                  <a href="/colectii/{collection.name.toLowerCase().replace(' ', '-')}" class="collection-item">
-                    <div class="collection-image">
-                      <img src={collection.image} alt={collection.name} />
-                    </div>
-                    <span class="collection-name">{collection.name}</span>
-                  </a>
-                {/each}
-              </div>
-              <div class="mouse-exit-area" on:mouseenter={() => isCollectionsOpen = false} aria-hidden="true"></div>
+             on:mouseenter={handleCollectionsOpen}
+             on:mouseleave={handleCollectionsClose}>
+          <a href="/colectii" aria-label="Colecții" class="collections-link">COLECTII</a>
+          <div class="collections-dropdown" 
+               class:hidden={!isCollectionsOpen}
+               bind:this={collectionsDropdown}
+               transition:fade>
+            <div class="navbar-transition-area" on:mouseenter={handleCollectionsOpen} aria-hidden="true"></div>
+            <div class="collections-grid">
+              {#each collections as collection, i}
+                <a 
+                  href="/colectii/{collection.name.toLowerCase().replace(' ', '-')}" 
+                  class="collection-item"
+                  bind:this={collectionItems[i]}
+                >
+                  <div class="collection-image">
+                    <img src={collection.image} alt={collection.name} />
+                  </div>
+                  <span class="collection-name">{collection.name}</span>
+                </a>
+              {/each}
             </div>
-          {/if}
+            <div class="mouse-exit-area" on:mouseenter={handleCollectionsClose} aria-hidden="true"></div>
+          </div>
         </div>
         <a href="/proiecte">PROIECTE</a>
         <a href="/despre-noi">DESPRE NOI</a>
@@ -192,6 +224,14 @@
     padding: 2rem 0;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     z-index: 1001;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .collections-dropdown.hidden {
+    opacity: 0;
+    visibility: hidden;
   }
 
   .collections-grid {
@@ -252,5 +292,25 @@
     width: 100%;
     height: 20px;
     z-index: -1;
+  }
+
+  .collections-link {
+    position: relative;
+  }
+
+  .collections-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .collections-link:hover::after {
+    transform: scaleX(1);
   }
 </style> 

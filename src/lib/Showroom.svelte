@@ -1,6 +1,6 @@
 <script>
   import showroomImage from '../assets/showroom.webp';
-    import RisingText from './RisingText.svelte';
+  import RisingText from './RisingText.svelte';
 </script>
 
 <div class="showroom-container">

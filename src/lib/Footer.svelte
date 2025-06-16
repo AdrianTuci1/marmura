@@ -19,8 +19,8 @@
     // Animate content - following scroll
     gsap.fromTo(footerContent, 
       {
-        y: -50,
-        opacity: 0
+        y: -400,
+        opacity: 0,
       },
       {
         y: 0,
