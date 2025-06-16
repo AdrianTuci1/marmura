@@ -1,80 +1,169 @@
 <script>
-  // Articles page component
+  import { fade } from 'svelte/transition';
+  import ArticleCard from '../components/ArticleCard.svelte';
+  import { showFilters, gridView, selectedCategory, searchQuery, toggleFilters, setCategory, setGridView } from '../lib/stores/articles';
+  import { articles } from '../lib/data/articles';
+  
+  $: filteredArticles = articles.filter(article => {
+    const matchesCategory = $selectedCategory === 'all' || article.category === $selectedCategory;
+    const matchesSearch = article.title.toLowerCase().includes($searchQuery.toLowerCase()) ||
+                         article.description.toLowerCase().includes($searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 </script>
 
-<div class="articles-container">
-  <h1>Articole</h1>
-  <div class="articles-grid">
-    <!-- Sample article cards - replace with dynamic content -->
-    <div class="article-card">
-      <div class="article-image">
-        <img src="https://via.placeholder.com/300x200" alt="Article thumbnail" />
-      </div>
-      <div class="article-content">
-        <h2>Titlu Articol</h2>
-        <p>Descriere scurtă a articolului...</p>
-        <a href="#" class="read-more">Citește mai mult</a>
-      </div>
+<main>
+  <div class="articles-container">
+    <div class="articles-grid" class:box-view={$gridView === 'box'} class:icon-view={$gridView === 'icon'} transition:fade>
+      {#each filteredArticles as article}
+        <ArticleCard {...article} />
+      {/each}
     </div>
   </div>
-</div>
+
+  {#if $showFilters}
+    <div class="filters-overlay" transition:fade>
+      <div class="filters-content">
+        <button class="close-button" on:click={toggleFilters}>×</button>
+        <div class="search-box">
+          <input 
+            type="text" 
+            bind:value={$searchQuery} 
+            placeholder="Caută articole..."
+            aria-label="Caută articole"
+          />
+        </div>
+        
+        <div class="category-filters">
+          <button 
+            class:active={$selectedCategory === 'all'} 
+            on:click={() => setCategory('all')}
+          >
+            Toate
+          </button>
+          <button 
+            class:active={$selectedCategory === 'design'} 
+            on:click={() => setCategory('design')}
+          >
+            Design
+          </button>
+          <button 
+            class:active={$selectedCategory === 'tehnologie'} 
+            on:click={() => setCategory('tehnologie')}
+          >
+            Tehnologie
+          </button>
+        </div>
+      </div>
+    </div>
+  {/if}
+</main>
 
 <style>
-  .articles-container {
-    max-width: 1200px;
-    margin: 100px auto 0;
-    padding: 2rem;
+  main {
+    padding-top: 100px;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    position: relative;
   }
 
-  h1 {
-    font-family: 'Urbanist', sans-serif;
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
+  .articles-container {
+    margin: 0 auto;
+    padding: 2rem 20px;
   }
 
   .articles-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
   }
 
-  .article-card {
+  .box-view {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .icon-view {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .filters-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .filters-content {
     background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
   }
 
-  .article-card:hover {
-    transform: translateY(-5px);
-  }
-
-  .article-image img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-
-  .article-content {
-    padding: 1.5rem;
-  }
-
-  h2 {
-    font-family: 'Urbanist', sans-serif;
+  .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
     font-size: 1.5rem;
-    margin-bottom: 1rem;
+    cursor: pointer;
+    color: #666;
   }
 
-  .read-more {
-    display: inline-block;
-    margin-top: 1rem;
-    color: #333;
-    text-decoration: none;
-    font-weight: 500;
+  .search-box {
+    margin-bottom: 1.5rem;
   }
 
-  .read-more:hover {
-    text-decoration: underline;
+  .search-box input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Urbanist', sans-serif;
+  }
+
+  .category-filters {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .category-filters button {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    font-family: 'Urbanist', sans-serif;
+    transition: all 0.3s ease;
+  }
+
+  .category-filters button.active {
+    background: #333;
+    color: white;
+    border-color: #333;
+  }
+
+  @media (max-width: 768px) {
+    .articles-container {
+      padding: 1rem;
+    }
+
+    .box-view {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .icon-view {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 </style> 

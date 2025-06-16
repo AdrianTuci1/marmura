@@ -42,8 +42,8 @@
   <div class="nav-container">
     <div class="left-section">
       <div class="logo">
-        <a href="/">
-          <img src="/logo.png" alt="MarmurArt Logo" />
+        <a href="/" class="logo-text">
+          m
         </a>
       </div>
       <div class="left-menu">
@@ -109,7 +109,12 @@
 </nav>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap');
+  @font-face {
+    font-family: 'Timeburner';
+    src: url('/behance.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
 
   nav {
     width: 100%;
@@ -120,6 +125,18 @@
     border-radius: 0px 0px 14px 14px;
     z-index: 1000;
     font-family: 'Urbanist', sans-serif;
+  }
+
+  .logo-text {
+    font-family: 'Timeburner', sans-serif;
+    font-weight: 500;
+    color: #333;
+    text-transform: lowercase;
+    letter-spacing: 0.05em;
+    font-size: 2rem;
+    display: flex;
+    max-height: 10px;
+    transform: translateY(-15px);
   }
 
   .nav-container {
@@ -134,19 +151,17 @@
   .left-section {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 1rem;
+    max-height: 10px;
   }
 
   .logo {
     display: flex;
     align-items: center;
+    font-family: 'Behance', sans-serif;
   }
 
-  .logo img {
-    height: 40px;
-    width: auto;
-    display: block;
-  }
 
   .left-menu {
     display: flex;
@@ -313,4 +328,4 @@
   .collections-link:hover::after {
     transform: scaleX(1);
   }
-</style> 
+</style>

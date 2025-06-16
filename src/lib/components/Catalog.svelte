@@ -19,7 +19,7 @@
       ScrollTrigger.create({
         trigger: catalogContainer,
         start: "top top",
-        end: "+=100%",
+        end: "+=200vh",
         scrub: 1,
         pin: true,
         anticipatePin: 1,
@@ -47,7 +47,7 @@
           <h2>Urban Collection</h2>
         </div>
         <div class="image-frame">
-          <img src="https://www.bosun.co.za/wp-content/uploads/2022/04/Bosun-Urban-Large-Paver.jpg" alt="Catalog Image 1" />
+          <img src="https://www.bosun.co.za/wp-content/uploads/2022/04/Bosun-Urban-Large-Paver.jpg" alt="marble urban" />
         </div>
         <div class="text-columns">
           <div class="column">
@@ -63,7 +63,7 @@
           <h2>Classic Series</h2>
         </div>
         <div class="image-frame">
-          <img src="https://www.bosun.co.za/wp-content/uploads/2022/04/Bosun-Urban-Large-Paver.jpg" alt="Catalog Image 2" />
+          <img src="https://www.bosun.co.za/wp-content/uploads/2022/04/Bosun-Urban-Large-Paver.jpg" alt="marble classic" />
         </div>
         <div class="text-columns">
           <div class="column">
@@ -80,16 +80,16 @@
 
 <style>
   .catalog-container {
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
     background: white;
-    position: inherit;
+    position: relative;
     overflow: hidden;
   }
 
   .catalog {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -104,10 +104,11 @@
     height: 100%;
     align-items: center;
     transform: translateX(66.66%);
+    margin-top: 1rem;
   }
 
   .catalog-page {
-    width: calc(33.33% - 1.33rem);
+    width: calc(33.33% - 1rem);
     height: 80vh;
     padding: 2rem;
     background: #f5f5f5;
@@ -120,9 +121,19 @@
     overflow-y: auto;
   }
 
+  .catalog-page:nth-child(1) {
+    background: #1d1c1c;
+  }
+
+  .page-title:nth-child(1) {
+    color: #fff;
+  }
+
+
   .page-title {
-    text-align: center;
+    text-align: left;
     margin-bottom: 0.5rem;
+    margin-top: 30%;
   }
 
   .page-title h2 {
@@ -132,11 +143,6 @@
     font-weight: 600;
   }
 
-  .page-title p {
-    font-size: 1rem;
-    color: #666;
-    margin: 0.5rem 0 0;
-  }
 
   .image-frame {
     width: 50%;
@@ -165,11 +171,6 @@
     gap: 0.5rem;
   }
 
-  .column h3 {
-    font-size: 1.2rem;
-    margin: 0;
-    color: #333;
-  }
 
   .column p {
     font-size: 0.9rem;

@@ -2,10 +2,11 @@
   import { onMount, onDestroy } from 'svelte';
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import showroomImage from '../assets/showroom.webp';
+  import { images, imageCollections } from '../lib/data/images.js';
   import Catalog from '../lib/components/Catalog.svelte';
   
   const isBrowser = typeof window !== 'undefined';
+
   
   if (isBrowser) {
     gsap.registerPlugin(ScrollTrigger);
@@ -15,8 +16,26 @@
   let image;
   let aboutSection;
   let scrollTriggers = [];
+  let currentImageIndex = 0;
+  const slideshowImages = imageCollections.slideshow;
+
+  // Debug log to check if images are loaded
+  console.log('Images loaded:', { images, imageCollections, slideshowImages });
+
+  function nextImage() {
+    currentImageIndex = (currentImageIndex + 1) % slideshowImages.length;
+    console.log('Next image:', slideshowImages[currentImageIndex]);
+  }
+
+  function prevImage() {
+    currentImageIndex = (currentImageIndex - 1 + slideshowImages.length) % slideshowImages.length;
+    console.log('Previous image:', slideshowImages[currentImageIndex]);
+  }
 
   onMount(() => {
+    console.log('Initial slideshow images:', slideshowImages);
+    console.log('Current image:', slideshowImages[currentImageIndex]);
+    
     // Image parallax
     scrollTriggers.push(
       ScrollTrigger.create({
@@ -40,7 +59,7 @@
 
 <div class="app-container" bind:this={container}>
   <div class="image-container" bind:this={image}>
-    <img src="https://www.bosun.co.za/wp-content/uploads/2022/04/Bosun-Urban-Large-Paver.jpg" alt="About Background" />
+    <img src={images.cover} alt="cover" />
     <div class="image-text-container">
       <span class="image-text">MARMURART - DIN 1986</span>
       <h2 class="image-text">COMPANIA NOASTRA</h2>
@@ -53,7 +72,7 @@
           <div class="first-row">
             <div class="left-column">
               <div class="image-container-small">
-                <img src={showroomImage} alt="About Background" />
+                <img src={images.showroom} alt="Showroom" />
               </div>
             </div>
             <div class="right-column">
@@ -73,142 +92,101 @@
       <div class="catalog-container">
         <Catalog />
       </div>
+
+      <div class="content-after-catalog">
+        <div class="quote">
+          <p class="quote-text">
+            "MarmurArt este o companie de import si export de marmura de inalta calitate."
+          </p>
+        </div>
+
+        <div class="another-content">
+          <div class="image-container-wide">
+            <img src={images.interior} alt="interior marble" />
+          </div>
+          <h2>Angajamentul nostru față de excelență și sustenabilitate este recunoscut prin numeroase certificări. Acestea atestă calitatea, siguranța și impactul redus asupra mediului al materialelor noastre.</h2>
+          <div class="two-columns">
+            <div class="column">
+              <h3>Certificări</h3>
+            </div>
+            <div class="column">
+              <p>Aceste recunoasteri sunt rezultatul unor controale riguroase la cel mai inalt standard care reflecta atentia companiei pentru solutii de calitate superioara.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="another-content">
+          <div class="two-columns">
+            <div class="column">
+              <div class="image-container">
+                {#if slideshowImages && slideshowImages[currentImageIndex]}
+                  <img 
+                    src={slideshowImages[currentImageIndex].image} 
+                    alt="slide-images"
+                    style="width: 100%; height: auto;"
+                  />
+                {/if}
+              </div>
+            </div>
+            <div class="column">
+              <div class="arrow-container">
+                <button class="arrow-button" on:click={prevImage}>←</button>
+                <button class="arrow-button" on:click={nextImage}>→</button>
+              </div>
+              {#if slideshowImages && slideshowImages[currentImageIndex]}
+                <p>{slideshowImages[currentImageIndex].description}</p>
+              {/if}
+            </div>
+          </div>
+        </div>
+
+        <div class="another-content">
+          <h1>MEDIU</h1>
+          <h2>MarmurArt colaboreaza cu echipe internationale care incurajeaza un viitor sustenabil, punand oamenii si planeta la centru.</h2>
+          <div class="two-columns">
+            <div class="column">
+              <h3>SUSTENABILITATE</h3>
+            </div>
+            <div class="column">
+              <h3> GRUPUL ESTE CONSTANT DEDICAT PENTRU A CREA SOLUTII SUSTENABILE </h3>
+              <div class="two-columns-paragraphs">
+                <p>MarmurArt este angajat in sustenabilitate, investind in tehnologii ecologice si materiale reciclabile.</p>
+                <p>MarmurArt este angajat in sustenabilitate, investind in tehnologii ecologice si materiale reciclabile.</p>
+              </div>
+
+
+            <div class="accordion-group">
+              <details class="accordion">
+                <summary>
+                  <h3>ISO</h3>
+                  <span class="accordion-icon">+</span>
+                </summary>
+                <div class="accordion-content">
+                  <p>Aceste recunoasteri sunt rezultatul unor controale riguroase la cel mai inalt standard care reflecta atentia companiei pentru solutii de calitate superioara.</p>
+                </div>
+              </details>
+
+              <details class="accordion">
+                <summary>
+                  <h3>Certificări</h3>
+                  <span class="accordion-icon">+</span>
+                </summary>
+                <div class="accordion-content">
+                  <p>Aceste recunoasteri sunt rezultatul unor controale riguroase la cel mai inalt standard care reflecta atentia companiei pentru solutii de calitate superioara.</p>
+                </div>
+              </details>
+            </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
 
 <style>
-  .app-container {
-    position: relative;
-    min-height: 100vh;
-  }
-
-  .image-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 90vh;
-    z-index: 1;
-    border-radius: 0 0 26px 26px;
-    overflow: hidden;
-  }
-
-  .image-text-container {
-    position: absolute;
-    bottom: 5px;
-    left: 20px;
-    font-size: 1.8rem;
-    color: #fff;
-    opacity: 1;
-    font-weight: 600;
-    line-height: 0.5;
-  }
-
-  .image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 0px;
-  }
-
-  .about-section {
-    position: relative;
-    z-index: 2;
-    min-height: 100vh;
-    padding-top: 90vh;
-  }
-
-  .about-container {
-    background: white;
-    position: relative;
-    z-index: 2;
-    margin: 0 auto;
-    padding: 4rem 2rem;
-    border-radius: 8px;
-  }
-
-
-  .content {
-    font-family: 'Urbanist', sans-serif;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .about-title {
-    padding-inline: 2rem;
-  }
-
-  .first-row {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 2rem;
-  }
-
-  .left-column {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-  }
-
-  .right-column {
-    flex: 1;
-  }
-
-  .image-container-small {
-    width: 500px;
-    aspect-ratio: 3/4;
-    border-radius: 16px;
-    overflow: hidden;
-  }
-
-  .image-container-small img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .subtitle {
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-    color: #333;
-  }
-
-  .paragraphs-container {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-  }
-
-  .paragraph {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: #666;
-  }
-
-  .catalog-container {
-    display: flex;
-    width: calc(100% + 60px);
-    height: 100%;
-    margin-inline: -30px;
-    outline: 1px solid red;
-  }
-
-
-  @media (max-width: 768px) {
-    .first-row {
-      flex-direction: column;
-    }
-
-    .left-column,
-    .right-column {
-      width: 100%;
-    }
-
-    .image-container-small {
-      margin-bottom: 2rem;
-    }
-  }
-
+  @import './About.css';
 </style> 
