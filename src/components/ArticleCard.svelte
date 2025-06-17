@@ -11,7 +11,6 @@
   </div>
   <div class="article-info">
     <h3>{title}</h3>
-    <p>{description}</p>
   </div>
 </a>
 
@@ -56,10 +55,4 @@
     font-family: 'Urbanist', sans-serif;
   }
 
-  .article-info p {
-    margin: 0;
-    color: #666;
-    font-size: 0.9rem;
-    line-height: 1.4;
-  }
 </style> 

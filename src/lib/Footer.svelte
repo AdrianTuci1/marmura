@@ -11,42 +11,43 @@
   
   let footerContent;
   let footerBigtext;
+  let footerColumns;
 
   onMount(() => {
     // Refresh ScrollTrigger when the component mounts
     ScrollTrigger.refresh();
 
-    // Animate content - following scroll
-    gsap.fromTo(footerContent, 
+    // Animate footer columns
+    gsap.fromTo(footerColumns, 
       {
-        y: -400,
-        opacity: 0,
+        y: -300,
+        opacity: 1,
       },
       {
         y: 0,
         opacity: 1,
-        duration: 0.8,
-        ease: "power2.out",
         scrollTrigger: {
-          trigger: footerContent,
-          start: "top bottom-=100",
-          end: "top center",
-          scrub: 1,
-          toggleActions: "play none none reverse"
+          trigger: ".footer",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.1,
         }
       }
     );
 
     // Animate big text - coming from bottom
-    gsap.from(footerBigtext, {
-      y: 50,
-      opacity: 0,
-      duration: 1,
-      ease: "power2.out",
+    gsap.fromTo(".footer-bigtext", {
+      y: 200,
+      opacity: 1,
+    }, {
+      y: 0,
+      opacity: 1,
       scrollTrigger: {
-        trigger: footerBigtext,
-        start: "top bottom-=150",
-        toggleActions: "play none none reverse"
+        trigger: ".footer",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 0.1,
+        markers: true
       }
     });
 
@@ -59,7 +60,7 @@
 
 <footer class="footer">
   <div class="footer-content-area" bind:this={footerContent}>
-    <div class="footer-columns">
+    <div class="footer-columns" bind:this={footerColumns}>
       <div>
         <h4>MARMURART</h4>
         <p>Str. Exemplu, Nr. 123<br />București, România</p>
@@ -84,7 +85,17 @@
       </div>
     </div>
     <div class="footer-bigtext-row">
-      <span class="footer-bigtext" bind:this={footerBigtext}>marmurart</span>
+      <div class="footer-bigtext">
+        <span>m</span>
+        <span>a</span>
+        <span>r</span>
+        <span>m</span>
+        <span>u</span>
+        <span>r</span>
+        <span>a</span>
+        <span>r</span>
+        <span>t</span>
+      </div>
     </div>
     <div class="footer-bottom">
       <div class="footer-line"></div>
@@ -120,12 +131,15 @@
   flex-direction: column;
   height: 100%;
   justify-content: flex-end;
+  overflow: visible;
 }
 .footer-columns {
   display: flex;
   justify-content: space-between;
   gap: 2rem;
   margin-bottom: 0.5rem;
+  position: relative;
+  will-change: transform;
 }
 .footer-columns h4, .footer-columns a {
   color: #111;
@@ -181,12 +195,20 @@
   font-size: 9vw;
   font-weight: 900;
   color: rgb(14, 14, 18);
-  letter-spacing: 0.3em;
   text-transform: lowercase;
   line-height: 1;
   text-align: center;
   user-select: none;
-  white-space: wrap;
+  white-space: nowrap;
+  opacity: 1;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.footer-bigtext span {
+  display: inline-block;
+  text-align: center;
+  flex: 1;
 }
 .footer-logo-svg {
   top: 0;
